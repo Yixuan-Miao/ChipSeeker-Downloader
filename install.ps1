@@ -44,11 +44,18 @@ New-Item -Path $ExtensionKey -Force | Out-Null
 Set-Item -Path $ExtensionKey -Value $FileClass
 New-Item -Path $ClassKey -Force | Out-Null
 Set-Item -Path $ClassKey -Value "ChipSeeker Download Task"
+New-ItemProperty -Path $ClassKey -Name "FriendlyTypeName" -Value "ChipSeeker Download Task" -PropertyType String -Force | Out-Null
 New-Item -Path $CommandKey -Force | Out-Null
 Set-Item -Path $CommandKey -Value ('"{0}" "%1"' -f $Launcher)
+
+$ShellRefresh = Join-Path $env:WINDIR "System32\ie4uinit.exe"
+if (Test-Path $ShellRefresh) {
+    & $ShellRefresh -show
+}
 
 Write-Host ""
 Write-Host "ChipSeeker Downloader installed." -ForegroundColor Green
 Write-Host "Double-click any .csdl file to start a visible download session."
+Write-Host "Opening the downloader without a file uses the newest .csdl in Downloads."
 Write-Host "Installation folder: $Root"
 

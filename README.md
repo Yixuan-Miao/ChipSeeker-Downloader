@@ -8,6 +8,8 @@ The downloader opens a visible Microsoft Edge or Google Chrome window. If IEEE r
 
 ## Install on Windows
 
+The easiest method is to download and extract the repository, then double-click `Install ChipSeeker Downloader.cmd` once.
+
 ```powershell
 git clone https://github.com/Yixuan-Miao/ChipSeeker-Downloader.git
 cd ChipSeeker-Downloader
@@ -23,6 +25,8 @@ The installer creates an isolated Python environment and associates `.csdl` file
 3. Double-click the downloaded `.csdl` file.
 4. Keep the visible download browser open. Complete IEEE login when requested.
 5. PDFs are saved under `Downloads\ChipSeeker\<task name>`.
+
+If the downloader is started without a task file, it automatically uses the newest `.csdl` file in the browser Downloads folder.
 
 Command-line use:
 

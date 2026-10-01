@@ -1,9 +1,10 @@
 import json
+import os
 import unittest
 from pathlib import Path
 
 from chipseeker_downloader.browser import candidate_urls
-from chipseeker_downloader.manifest import load_manifest
+from chipseeker_downloader.manifest import find_latest_manifest, load_manifest
 from chipseeker_downloader.naming import paper_filename, safe_component
 
 
@@ -43,6 +44,20 @@ class DownloaderCoreTests(unittest.TestCase):
             self.assertEqual(task["papers"][0]["title"], "Paper")
         finally:
             path.unlink(missing_ok=True)
+
+    def test_find_latest_manifest(self):
+        root = Path(__file__).parent
+        older = root / "_older_test.csdl"
+        newer = root / "_newer_test.csdl"
+        try:
+            older.write_text("{}", encoding="utf-8")
+            newer.write_text("{}", encoding="utf-8")
+            old_time = older.stat().st_mtime - 10
+            os.utime(older, (old_time, old_time))
+            self.assertEqual(find_latest_manifest(root), newer)
+        finally:
+            older.unlink(missing_ok=True)
+            newer.unlink(missing_ok=True)
 
 
 if __name__ == "__main__":

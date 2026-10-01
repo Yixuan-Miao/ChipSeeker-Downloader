@@ -61,9 +61,9 @@ def parse_args():
 def main():
     args = parse_args()
     try:
-        task_path = find_latest_manifest() if args.latest else args.task
-        if not task_path:
-            raise ManifestError("Provide a .csdl file or use --latest.")
+        task_path = args.task or find_latest_manifest()
+        if not args.task:
+            print(f"Using the newest task from Downloads: {task_path}")
         task = load_manifest(task_path)
     except ManifestError as exc:
         print(f"Task error: {exc}", file=sys.stderr)
