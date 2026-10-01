@@ -4,7 +4,7 @@ Add-Type -AssemblyName Microsoft.VisualBasic
 Add-Type -AssemblyName System.Windows.Forms
 
 $rawCount = [Microsoft.VisualBasic.Interaction]::InputBox(
-    "How many PDF tabs are already open?`r`n`r`n请输入已经打开的 PDF 标签页数量。",
+    "How many PDF tabs are already open?",
     "ChipSeeker - Save Open PDF Tabs",
     "1"
 )
@@ -16,7 +16,7 @@ if ([string]::IsNullOrWhiteSpace($rawCount)) {
 $count = 0
 if (-not [int]::TryParse($rawCount, [ref]$count) -or $count -lt 1 -or $count -gt 200) {
     [System.Windows.Forms.MessageBox]::Show(
-        "Please enter a number from 1 to 200.`r`n请输入 1 到 200 之间的数字。",
+        "Please enter a number from 1 to 200.",
         "ChipSeeker Downloader",
         "OK",
         "Warning"
@@ -25,7 +25,7 @@ if (-not [int]::TryParse($rawCount, [ref]$count) -or $count -lt 1 -or $count -gt
 }
 
 [System.Windows.Forms.MessageBox]::Show(
-    "After closing this message, click the first PDF tab within 5 seconds.`r`n`r`nThe script will save and close each PDF tab in turn.`r`n`r`n关闭本提示后，请在 5 秒内点击任意一个待下载的 PDF 标签页。脚本会依次保存并关闭这些 PDF 标签页。",
+    "After closing this message, click the rightmost PDF tab within 5 seconds.`r`n`r`nThe script will save and close each PDF tab in turn.",
     "ChipSeeker - Ready",
     "OK",
     "Information"
@@ -45,7 +45,7 @@ for ($index = 1; $index -le $count; $index++) {
 }
 
 [System.Windows.Forms.MessageBox]::Show(
-    "Finished processing $count PDF tabs.`r`n已处理 $count 个 PDF 标签页。",
+    "Finished processing $count PDF tabs.",
     "ChipSeeker Downloader",
     "OK",
     "Information"
