@@ -1,38 +1,33 @@
 $ErrorActionPreference = "Stop"
 
-Add-Type -AssemblyName Microsoft.VisualBasic
-Add-Type -AssemblyName System.Windows.Forms
-
-$rawCount = [Microsoft.VisualBasic.Interaction]::InputBox(
-    "How many PDF tabs are already open?",
-    "ChipSeeker - Save Open PDF Tabs",
-    "1"
-)
+Write-Host ""
+Write-Host "ChipSeeker - Save Open PDF Tabs" -ForegroundColor Cyan
+Write-Host "-----------------------------------"
+Write-Host "Open the selected PDFs in Edge or Chrome before continuing."
+Write-Host ""
+$rawCount = Read-Host "Number of open PDF tabs"
 
 if ([string]::IsNullOrWhiteSpace($rawCount)) {
+    Write-Host "No number entered. Nothing was changed." -ForegroundColor Yellow
     exit 0
 }
 
 $count = 0
 if (-not [int]::TryParse($rawCount, [ref]$count) -or $count -lt 1 -or $count -gt 200) {
-    [System.Windows.Forms.MessageBox]::Show(
-        "Please enter a number from 1 to 200.",
-        "ChipSeeker Downloader",
-        "OK",
-        "Warning"
-    ) | Out-Null
+    Write-Host "Please enter a number from 1 to 200." -ForegroundColor Red
     exit 1
 }
 
-[System.Windows.Forms.MessageBox]::Show(
-    "After closing this message, click the rightmost PDF tab within 5 seconds.`r`n`r`nThe script will save and close each PDF tab in turn.",
-    "ChipSeeker - Ready",
-    "OK",
-    "Information"
-) | Out-Null
+Write-Host ""
+Write-Host "The script will save and close $count PDF tabs." -ForegroundColor Green
+Write-Host "After pressing Enter, click the RIGHTMOST PDF tab during the countdown."
+Read-Host "Press Enter to start"
 
 $shell = New-Object -ComObject WScript.Shell
-Start-Sleep -Seconds 5
+for ($seconds = 5; $seconds -ge 1; $seconds--) {
+    Write-Host "Starting in $seconds... click the browser PDF tab now."
+    Start-Sleep -Seconds 1
+}
 
 for ($index = 1; $index -le $count; $index++) {
     Write-Host "[$index/$count] Saving the active PDF tab..."
@@ -44,9 +39,5 @@ for ($index = 1; $index -le $count; $index++) {
     Start-Sleep -Milliseconds 900
 }
 
-[System.Windows.Forms.MessageBox]::Show(
-    "Finished processing $count PDF tabs.",
-    "ChipSeeker Downloader",
-    "OK",
-    "Information"
-) | Out-Null
+Write-Host ""
+Write-Host "Finished processing $count PDF tabs." -ForegroundColor Green
