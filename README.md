@@ -1,5 +1,7 @@
 # ChipSeeker Downloader
 
+> Status: discontinued prototype. ChipSeeker Online no longer integrates batch downloading because browser-focus automation and publisher-specific filenames are not reliable enough for production use.
+
 ChipSeeker Downloader downloads PDF tasks exported by ChipSeeker Online on the user's own computer. ChipSeeker does not proxy or store the PDF files.
 
 ChipSeeker Downloader 用于在用户自己的电脑上处理在线版导出的论文下载任务。PDF 不经过 ChipSeeker 服务器。
