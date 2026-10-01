@@ -6,6 +6,15 @@ ChipSeeker Downloader 用于在用户自己的电脑上处理在线版导出的�
 
 The downloader opens a visible Microsoft Edge or Google Chrome window. If IEEE redirects to a login or landing page, finish institutional login, VPN setup, or page navigation in that window, then return to the terminal and retry.
 
+## Recommended: save already-open PDF tabs
+
+1. Use `Open Selected PDFs` on ChipSeeker Online.
+2. Confirm that the publisher pages have opened as PDF tabs.
+3. Double-click `Save Open PDF Tabs.cmd`.
+4. Enter the number of PDF tabs and click one of those tabs during the five-second countdown.
+
+The script saves and closes each active PDF tab in sequence. This foreground workflow uses the browser's existing login and network state. It does not try to inspect or bypass publisher access controls.
+
 ## Install on Windows
 
 The easiest method is to download and extract the repository, then double-click `Install ChipSeeker Downloader.cmd` once.
@@ -19,6 +28,8 @@ powershell -ExecutionPolicy Bypass -File .\install.ps1
 The installer creates an isolated Python environment and associates `.csdl` files with the downloader. It does not require administrator access and does not install a browser extension.
 
 ## Use
+
+The `.csdl` workflow below is retained as an alternative for users who prefer task files.
 
 1. Search and select papers on ChipSeeker Online.
 2. Click `Batch Download Task (.csdl)`.
