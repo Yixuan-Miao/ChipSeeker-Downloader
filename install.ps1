@@ -1,22 +1,38 @@
 $ErrorActionPreference = "Stop"
 $Root = Split-Path -Parent $MyInvocation.MyCommand.Path
+$VenvDir = Join-Path $Root ".venv"
 $VenvPython = Join-Path $Root ".venv\Scripts\python.exe"
 
-if (-not (Test-Path $VenvPython)) {
+function New-ChipSeekerVenv {
     $Py = Get-Command py -ErrorAction SilentlyContinue
     if ($Py) {
-        & $Py.Source -3 -m venv (Join-Path $Root ".venv")
+        & $Py.Source -3 -m venv --clear $VenvDir
     } else {
         $Python = Get-Command python -ErrorAction SilentlyContinue
         if (-not $Python) {
             throw "Python 3 was not found. Install Python 3 and run install.ps1 again."
         }
-        & $Python.Source -m venv (Join-Path $Root ".venv")
+        & $Python.Source -m venv --clear $VenvDir
+    }
+    if ($LASTEXITCODE -ne 0) {
+        throw "Could not create the ChipSeeker Downloader Python environment."
+    }
+}
+
+if (-not (Test-Path $VenvPython)) {
+    New-ChipSeekerVenv
+} else {
+    $VenvPip = Join-Path $VenvDir "Lib\site-packages\pip"
+    if (-not (Test-Path $VenvPip)) {
+        Write-Host "Repairing an incomplete downloader environment..." -ForegroundColor Yellow
+        New-ChipSeekerVenv
     }
 }
 
 & $VenvPython -m pip install --upgrade pip
+if ($LASTEXITCODE -ne 0) { throw "Could not update pip." }
 & $VenvPython -m pip install -r (Join-Path $Root "requirements.txt")
+if ($LASTEXITCODE -ne 0) { throw "Could not install downloader dependencies." }
 
 $FileClass = "ChipSeeker.DownloadTask"
 $ExtensionKey = "HKCU:\Software\Classes\.csdl"
