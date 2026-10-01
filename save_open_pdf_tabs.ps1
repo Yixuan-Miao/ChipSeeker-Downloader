@@ -49,7 +49,7 @@ for ($index = 1; $index -le $count; $index++) {
     $shell.SendKeys("{ENTER}")
     Start-Sleep -Milliseconds 1200
     $shell.SendKeys("{ENTER}")
- 
+
     $saved = $false
     for ($attempt = 1; $attempt -le 20; $attempt++) {
         Start-Sleep -Milliseconds 500
